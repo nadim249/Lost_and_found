@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Report Lost or Found Item</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/add" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control" required placeholder="e.g., iPhone 13 Pro">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Category</label>
+                                <select name="category" class="form-select">
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Pets">Pets</option>
+                                    <option value="Documents">Documents</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <select name="status" class="form-select">
+                                    <option value="Lost">I Lost this</option>
+                                    <option value="Found">I Found this</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="4" required placeholder="Provide details (color, location, etc.)"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Contact Info</label>
+                            <input type="text" name="contact_info" class="form-control" required placeholder="Phone number or email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Upload Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Post Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

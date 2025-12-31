@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <form action="/" method="get" class="card p-4 shadow-sm border-0">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa-solid fa-search text-muted"></i></span>
+                            <input type="text" name="q" class="form-control" placeholder="Search for items" value="{{ request.args.get('q', '') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <select name="status" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="Lost" {% if request.args.get('status') == 'Lost' %}selected{% endif %}>Lost</option>
+                            <option value="Found" {% if request.args.get('status') == 'Found' %}selected{% endif %}>Found</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <select name="category" class="form-select">
+                            <option value="">All Categories</option>
+                            <option value="Electronics" {% if request.args.get('category') == 'Electronics' %}selected{% endif %}>Electronics</option>
+                            <option value="Pets" {% if request.args.get('category') == 'Pets' %}selected{% endif %}>Pets</option>
+                            <option value="Documents" {% if request.args.get('category') == 'Documents' %}selected{% endif %}>Documents</option>
+                            <option value="Clothing" {% if request.args.get('category') == 'Clothing' %}selected{% endif %}>Clothing</option>
+                            <option value="Other" {% if request.args.get('category') == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">Find</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for item in items %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 item-card">
+                    <div class="position-absolute top-0 end-0 m-2">
+                        <span class="badge {% if item.status == 'Lost' %}bg-danger{% else %}bg-success{% endif %}">
+                            {{ item.status }}
+                        </span>
+                    </div>
+                    {% if item.image_path %}
+                        <img src="{{ url_for('static', filename=item.image_path) }}" class="card-img-top" alt="{{ item.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fa-solid fa-image fa-2x"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">{{ item.title }}</h5>
+                        <p class="text-muted small mb-2"><i class="fa-solid fa-tag"></i> {{ item.category }}</p>
+                        <p class="card-text text-muted small" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            {{ item.description }}
+                        </p>
+                        <a href="{{ url_for('item_detail', item_id=item.id) }}" class="btn btn-outline-primary btn-sm w-100 stretched-link">View Details</a>
+                    </div>
+                    <div class="card-footer bg-white text-muted small border-top-0">
+                        <i class="fa-regular fa-clock"></i> {{ item.date_posted[:10] }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <div class="text-muted">
+                    <i class="fa-solid fa-magnifying-glass fa-3x mb-3"></i>
+                    <h3>No items found matching your search.</h3>
+                    <a href="{{ url_for('index') }}" class="btn btn-link">Clear all filters</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
