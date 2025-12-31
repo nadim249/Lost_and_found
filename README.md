@@ -1,6 +1,5 @@
 # Lost & Found Web Application
 
-#### Video Demo:  <https://youtu.be/GkL4-i4TEIQ>
 
 #### Description:
 
